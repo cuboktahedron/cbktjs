@@ -12,6 +12,38 @@ var cbkt = (function(undefined) {
       }
 
       return obj;
+    },
+
+    enumurator: {
+      // 列挙型オブジェクトを作成する。
+      create: function(elements, baseClass) {
+        var elementsLen = elements.length;
+        var obj = {};
+        var element;
+        var prop;
+
+        // 各列挙値に対応する、baseClassのprototypeを引き継いだ列挙型オブジェクト作成
+        for (prop in elements) {
+          if (elements.hasOwnProperty(prop)) {
+            obj[prop] = Object.create(baseClass);
+
+            // 列挙値をenumオブジェクトに追加
+            obj[prop].value = elements[prop];
+          }
+        }
+
+        // 列挙値からの逆引きメソッドをenumオブジェクトに追加
+        obj.valueOf = function(value) {
+          for (prop in obj) {
+            if (obj.hasOwnProperty(prop) && obj[prop].value === value) {
+              return obj[prop];
+            }
+          }
+          return null;
+        };
+
+        return obj;
+      }
     }
   };
 
