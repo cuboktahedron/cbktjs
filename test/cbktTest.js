@@ -99,8 +99,8 @@
       E2: 2
     }, {});
 
-    same(enumObj.valueOf(1), enumObj.E1);
-    same(enumObj.valueOf(2), enumObj.E2);
+    same(enumObj.elementOf(1), enumObj.E1);
+    same(enumObj.elementOf(2), enumObj.E2);
   });
 }());
 

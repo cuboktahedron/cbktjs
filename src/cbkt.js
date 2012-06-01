@@ -10,7 +10,7 @@ var cbkt = (function(undefined) {
     })();
   }
 
-  cbkt = {
+  var cbkt = {
     namespace: function(ns) {
       var obj = this;
       var levels = ns.split('.');
@@ -28,7 +28,6 @@ var cbkt = (function(undefined) {
     enumurator: {
       // 列挙型オブジェクトを作成する。
       create: function(elements, baseClass) {
-        var elementsLen = elements.length;
         var obj = {};
         var element;
         var prop;
@@ -38,13 +37,13 @@ var cbkt = (function(undefined) {
           if (elements.hasOwnProperty(prop)) {
             obj[prop] = Object.create(baseClass);
 
-            // 列挙値をenumオブジェクトに追加
+            // 列挙値を列挙型に追加
             obj[prop].value = elements[prop];
           }
         }
 
-        // 列挙値からの逆引きメソッドをenumオブジェクトに追加
-        obj.valueOf = function(value) {
+        // 列挙値からの逆引きメソッドを列挙型オブジェクトに追加
+        obj.elementOf = function(value) {
           for (prop in obj) {
             if (obj.hasOwnProperty(prop) && obj[prop].value === value) {
               return obj[prop];
