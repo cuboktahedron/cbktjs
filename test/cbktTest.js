@@ -1,4 +1,24 @@
 (function(undefined) {
+  module('ObjectCreateTest');
+
+  test('渡されたオブジェクトを継承したオブジェクトが作成されること', function() {
+    var base = {
+      value: 3,
+      calculate: function() {
+        return this.value * 5;
+      }
+    };
+
+    var sub = Object.create(base);
+    sub.calculate = function() {
+      return 4 * base.calculate.call(this);
+    };
+
+    same(sub.calculate(), 60);
+  });
+})();
+
+(function(undefined) {
   module('nameSpaceTest', {
     teardown: function() {
       delete cbkt.nstest;
@@ -61,14 +81,14 @@
     }, {});
 
     switch (enumObj.E2) {
-    case enumObj.E1:
-      ok(false);
+      case enumObj.E1:
+        ok(false);
       break;
-    case enumObj.E2:
-      ok(true);
+      case enumObj.E2:
+        ok(true);
       break;
-    default:
-      ok(false);
+      default:
+        ok(false);
       break;
     }
   });

@@ -1,4 +1,15 @@
 var cbkt = (function(undefined) {
+  // Object.create未実装のブラウザ対応
+  if (!Object.create) {
+    (function() {
+      Object.create = function(base) {
+        var F = function() {};
+        F.prototype = base;
+        return new F();
+      };
+    })();
+  }
+
   cbkt = {
     namespace: function(ns) {
       var obj = this;
