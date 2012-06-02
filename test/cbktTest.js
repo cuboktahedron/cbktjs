@@ -14,7 +14,7 @@
       return 4 * base.calculate.call(this);
     };
 
-    same(sub.calculate(), 60);
+    deepEqual(sub.calculate(), 60);
   });
 })();
 
@@ -27,12 +27,12 @@
 
   test('新しいnamespaceオブジェクトが作成されること', function() {
     cbkt.namespace('nstest');
-    same(cbkt.nstest, {});
+    deepEqual(cbkt.nstest, {});
   });
 
   test('多階層のnamespaceオブジェクトが作成されること', function() {
     cbkt.namespace('nstest.nested1.nested2');
-    same(cbkt.nstest.nested1.nested2, {});
+    deepEqual(cbkt.nstest.nested1.nested2, {});
   });
 
   test('既に存在するnamespaceオブジェクトを上書きしないこと', function() {
@@ -66,12 +66,12 @@
 
     ok(enumObj.E1);
     ok(enumObj.E2);
-    same(enumObj.E1, enumObj.E1);
-    same(enumObj.E2, enumObj.E2);
-    same(enumObj.E1.value, 1);
-    same(enumObj.E2.value, 2);
-    same(enumObj.E1.add10(), 11);
-    same(enumObj.E2.add10(), 12);
+    deepEqual(enumObj.E1, enumObj.E1);
+    deepEqual(enumObj.E2, enumObj.E2);
+    deepEqual(enumObj.E1.value, 1);
+    deepEqual(enumObj.E2.value, 2);
+    deepEqual(enumObj.E1.add10(), 11);
+    deepEqual(enumObj.E2.add10(), 12);
   });
 
   test('switchで分岐できること', function() {
@@ -99,8 +99,8 @@
       E2: 2
     }, {});
 
-    same(enumObj.elementOf(1), enumObj.E1);
-    same(enumObj.elementOf(2), enumObj.E2);
+    deepEqual(enumObj.elementOf(1), enumObj.E1);
+    deepEqual(enumObj.elementOf(2), enumObj.E2);
   });
 }());
 
