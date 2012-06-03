@@ -37,15 +37,20 @@ var cbkt = (function(undefined) {
           if (elements.hasOwnProperty(prop)) {
             obj[prop] = Object.create(baseClass);
 
-            // 列挙値を列挙型に追加
-            obj[prop].value = elements[prop];
+            // 列挙値を返す関数を列挙型オブジェクトに追加
+            obj[prop].value = (function () {
+              var value = elements[prop];
+              return function() {
+                return value;
+              };
+            })();
           }
         }
 
         // 列挙値からの逆引きメソッドを列挙型オブジェクトに追加
         obj.elementOf = function(value) {
           for (prop in obj) {
-            if (obj.hasOwnProperty(prop) && obj[prop].value === value) {
+            if (obj.hasOwnProperty(prop) && obj[prop].value() === value) {
               return obj[prop];
             }
           }

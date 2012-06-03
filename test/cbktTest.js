@@ -55,7 +55,7 @@
   test('enumオブジェクトが作成されること', function() {
     var enumClass = {
       add10: function() {
-        return this.value + 10;
+        return this.value() + 10;
       }
     };
 
@@ -68,8 +68,8 @@
     ok(enumObj.E2);
     deepEqual(enumObj.E1, enumObj.E1);
     deepEqual(enumObj.E2, enumObj.E2);
-    deepEqual(enumObj.E1.value, 1);
-    deepEqual(enumObj.E2.value, 2);
+    deepEqual(enumObj.E1.value(), 1);
+    deepEqual(enumObj.E2.value(), 2);
     deepEqual(enumObj.E1.add10(), 11);
     deepEqual(enumObj.E2.add10(), 12);
   });
