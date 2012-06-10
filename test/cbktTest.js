@@ -104,4 +104,25 @@
   });
 }());
 
+(function() {
+  module('requireTest', {
+    teardown: function() {
+      delete cbkt.test;
+    }
+  });
+
+  test('jsファイルが動的読み込みされること', function() {
+    stop();
+    cbkt.require('dynamic.js', 'cbkt.test.value', function(isLoaded) {
+      ok(isLoaded);
+      equal(cbkt.test.value, 10);
+
+      cbkt.require('dynamic.js', 'cbkt.test.value', function(isLoaded) {
+        ok(!isLoaded, 'require is once only');
+        equal(cbkt.test.value, 10, 'require is once only');
+        start();
+      });
+    });
+  });
+})();
 

@@ -25,6 +25,44 @@ var cbkt = (function(undefined) {
       return obj;
     },
 
+    require: (function() {
+      // 読み込み済みファイルのストア用
+      var loadedSrcs = {};
+      
+      return function(url, checker, onLoadHandler) {
+        if (loadedSrcs[url]) {
+          onLoadHandler(false);
+          return;
+        }
+
+        var waitLoadCompletion = function() {
+
+          // 読み込み完了判定処理
+          var isLoaded = new Function('return !!(' + checker + ')');
+
+          // 読み込み完了チェックループ
+          setTimeout(function() {
+            if (isLoaded()) {
+              loadedSrcs[url] = true;
+              onLoadHandler(true);
+            } else {
+              setTimeout(arguments.callee, 100);
+            }
+          }, 100);
+        };
+
+        // <script>タグを動的に作成しファイルを読み込む
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(script);
+
+        // 読み込み完了を待ち合わせる
+        waitLoadCompletion();
+      };
+    })(),
+
     enumurator: {
       // 列挙型オブジェクトを作成する。
       create: function(elements, baseClass) {
