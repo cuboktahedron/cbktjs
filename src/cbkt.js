@@ -75,11 +75,19 @@ var cbkt = (function(undefined) {
           if (elements.hasOwnProperty(prop)) {
             obj[prop] = Object.create(baseClass);
 
-            // 列挙値を返す関数を列挙型オブジェクトに追加
+            // 列挙値を返す関数
             obj[prop].value = (function () {
               var value = elements[prop];
               return function() {
                 return value;
+              };
+            })();
+
+            // 文字列表現(列挙子名)を返す関数
+            obj[prop].toString = (function() {
+              var name = prop;
+              return function() {
+                return name;
               };
             })();
           }

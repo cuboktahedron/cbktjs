@@ -102,6 +102,18 @@
     deepEqual(enumObj.elementOf(1), enumObj.E1);
     deepEqual(enumObj.elementOf(2), enumObj.E2);
   });
+
+  test('列挙値をオブジェクトのキーとして使用できること', function() {
+    var enumObj = cbkt.enumurator.create({
+      E1: 1,
+      E2: 2
+    }, {});
+
+    var obj = {};
+    obj[enumObj.E1] = 10;
+    obj[enumObj.E2] = 20;
+    deepEqual(obj, { E1: 10, E2: 20 });
+  });
 }());
 
 (function() {
