@@ -74,6 +74,15 @@
     deepEqual(enumObj.E2.add10(), 12);
   });
 
+  test('列挙値にオブジェクトを渡してenumオブジェクトが作成されること', function() {
+    var enumObj = cbkt.enumurator.create({
+      E1: { value: 1, isE1: true }
+    }, {});
+
+    equal(enumObj.E1.value(), 1);
+    equal(enumObj.E1.isE1(), true);
+  });
+
   test('switchで分岐できること', function() {
     var enumObj = cbkt.enumurator.create({
       E1: 1,

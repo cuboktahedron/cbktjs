@@ -28,7 +28,7 @@ var cbkt = (function(undefined) {
     require: (function() {
       // 読み込み済みファイルのストア用
       var loadedSrcs = {};
-      
+
       return function(url, checker, onLoadHandler) {
         if (loadedSrcs[url]) {
           onLoadHandler(false);
@@ -66,22 +66,40 @@ var cbkt = (function(undefined) {
     enumurator: {
       // 列挙型オブジェクトを作成する。
       create: function(elements, baseClass) {
+        var isObject = function(obj) {
+          return obj === Object(obj);
+        };
+
         var obj = {};
         var element;
+        var elementValue;
         var prop;
 
         // 各列挙値に対応する、baseClassのprototypeを引き継いだ列挙型オブジェクト作成
         for (prop in elements) {
           if (elements.hasOwnProperty(prop)) {
+            elementValue = elements[prop];
             obj[prop] = Object.create(baseClass);
 
-            // 列挙値を返す関数
-            obj[prop].value = (function () {
-              var value = elements[prop];
-              return function() {
-                return value;
-              };
-            })();
+            if (isObject(elementValue)) {
+              // オブジェクトの場合、オブジェクト内の各要素を返すアクセス関数を作成
+              for (p in elementValue) {
+                obj[prop][p] = (function() {
+                  var value = elementValue[p];
+                  return function() {
+                    return value;
+                  };
+                })();
+              }
+            } else {
+              // オブジェクトではない場合、その値を返す関数を作成
+              obj[prop].value = (function () {
+                var value = elementValue;
+                return function() {
+                  return value;
+                };
+              })();
+            }
 
             // 文字列表現(列挙子名)を返す関数
             obj[prop].toString = (function() {
